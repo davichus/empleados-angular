@@ -10,4 +10,3 @@ router.put('/:id', employeesCtrl.updateEmployee);
 router.delete('/:id', employeesCtrl.deleteEmployee);
 
 module.exports = router;
-

@@ -1,23 +1,31 @@
+
 const employeesCtrl = {};
+const Employee = require('../models/Employee');
 
-employeesCtrl.getEmployees = (req, res) => {
-    res.send('Retorna listado de empleados');
+employeesCtrl.getEmployees = async (req, res) => {
+    const employees = await Employee.find();
+    res.send(employees);
 };
 
-employeesCtrl.createEmployee = (req, res) => {
-    res.send('Crea un nuevo empleado');
+employeesCtrl.createEmployee = async (req, res) => {
+    const newEmployee = new Employee(req.body);
+    await newEmployee.save();
+    res.send({message: 'Empleado creado'});
 };
 
-employeesCtrl.getEmployeeId = (req, res) => {
-    res.send('Retorna un empleado por ID');
+employeesCtrl.getEmployeeId = async (req, res) => {
+    const employee = await Employee.findById(req.params.id);
+    res.send(employee);
 };
 
-employeesCtrl.updateEmployee = (req, res) => {
-    res.send('Actualiza un empleado por ID');
+employeesCtrl.updateEmployee =  async (req, res) => {
+    await Employee.findByIdAndUpdate(req.params.id, req.body);
+    res.send({message: 'Empleado actualizado'});
 };
 
-employeesCtrl.deleteEmployee = (req, res) => {
-    res.send('Elimina un empleado por ID');
+employeesCtrl.deleteEmployee = async (req, res) => {
+    await Employee.findByIdAndDelete(req.params.id);
+    res.send({message: 'Empleado eliminado'});
 };
 
 module.exports = employeesCtrl;
